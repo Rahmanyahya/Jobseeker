@@ -1,0 +1,132 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              Int               @id @default(autoincrement())
+  avatar          String            @db.Text @default("https://images.macrumors.com/t/n4CqVR2eujJL-GkUPhv1oao_PmI=/1600x/article-new/2019/04/guest-user-250x250.jpg")
+  avatar_public_id String?          @db.VarChar(255)
+  name            String            @db.VarChar(255)
+  email           String            @unique
+  password        String            @db.VarChar(255)
+  role            ROLE
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  Society         Society[]
+  Portfolio       Portfolio[]
+  Company         Company[]
+  PositionApplied PositionApplied[]
+
+  @@index([id, email])
+  @@map("user")
+}
+
+model Society {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  nama      String   @db.VarChar(255)
+  address   String   @db.Text
+  phone     String   @db.VarChar(15)
+  dob       DateTime
+  gender    GENDER
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([userId, id])
+  @@map("society")
+}
+
+model Portfolio {
+  id          Int      @id @default(autoincrement())
+  userId      Int
+  skill       String   @db.VarChar(50)
+  description String   @db.Text
+  file        String   @db.Text
+  file_public_id String @db.VarChar(255)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+
+  @@index([userId, id])
+  @@map("portfolio")
+}
+
+model Company {
+  id          Int      @id @default(autoincrement())
+  userId      Int
+  name        String   @db.VarChar(255)
+  address     String   @db.Text
+  phone       String   @db.VarChar(15)
+  description String   @db.Text
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user            User              @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  AvaiblePosition AvaiblePosition[]
+
+  @@index([userId, id, name])
+  @@map("company")
+}
+
+model AvaiblePosition {
+  id                   Int      @id @default(autoincrement())
+  companyId            Int
+  position_name        String   @db.VarChar(100)
+  capacity             Int
+  description          String   @db.Text
+  submition_start_date DateTime
+  submition_end_date   DateTime
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  company         Company           @relation(fields: [companyId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  PositionApplied PositionApplied[]
+
+  @@index([companyId, id, position_name])
+  @@map("avaible_position")
+}
+
+model PositionApplied {
+  id                  Int               @id @default(autoincrement())
+  avaible_position_id Int
+  userId              Int
+  apply_date          DateTime
+  status              StatusApllication
+  updatedAt           DateTime          @updatedAt
+
+  AvaiblePosition AvaiblePosition @relation(fields: [avaible_position_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  user            User            @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+
+  @@index([id, avaible_position_id, userId])
+  @@map("position_applied")
+}
+
+enum StatusApllication {
+  PENDING
+  ACCEPTED
+  REJECTED
+}
+
+enum ROLE {
+  HRD
+  SOCIETY
+}
+
+enum GENDER {
+  L
+  P
+}

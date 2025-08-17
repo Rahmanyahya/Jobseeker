@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+
+. "$(dirname -- "$0")/_/husky.sh"
+set -e  #
+
+echo 'Styling, testing and building your project before commit'
+
+# Check Prettier
+npm run check-format || (echo 'Prettier Check Failed, Run npm run format on your terminal' && exit 1)
+
+npm test

@@ -1,10 +1,11 @@
 import Redis from 'ioredis';
-import { GlobalEnv } from '../Config/GlobalEnv';
-import Logger from '../Config/Logger';
+import { GlobalEnv } from './GlobalEnv';
+import Logger from './Logger';
 
 let client: Redis | null = null;
 
 export function initialRedisClient(): Redis {
+  console.log(GlobalEnv.REDIS);
   if (!client) {
     client = new Redis({
       host: 'localhost',

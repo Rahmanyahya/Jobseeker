@@ -12,6 +12,9 @@ async function main() {
       password: hashedPassword,
       role: 'SOCIETY',
       name: 'Rahman Yahya',
+      avatar:
+        'https://res.cloudinary.com/dx8zjyq5w/image/upload/v1685000009/avatars/rahmanyahya647.jpg',
+      avatar_public_id: 'avatars/rahmanyahya647.jpg',
     },
   });
 }
@@ -21,7 +24,6 @@ main()
     await prisma.$disconnect();
   })
   .catch(async e => {
-    console.error(e);
     await prisma.$disconnect();
     process.exit(1);
   });

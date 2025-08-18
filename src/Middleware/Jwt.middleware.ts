@@ -1,3 +1,4 @@
+import { initialRedisClient } from 'Config/Redis';
 import { NextFunction, Response } from 'express';
 import { ClientRequest, JwtPayload } from 'Global/Global';
 import * as Jwt from 'jsonwebtoken';
@@ -11,10 +12,16 @@ export const JwtMiddleware = async (
 
   if (!token) res.status(401).json({ success: false, data: [], message: 'Unauthorized' });
 
-  Jwt.verify(token, process.env.JWT_SECRET as string, (err, decode) => {
+  Jwt.verify(token, process.env.JWT_SECRET as string, async (err, decode) => {
     if (err) res.status(401).json({ success: false, data: [], message: 'Unauthorized' });
 
     req.user = decode as JwtPayload;
+
+    const redisClient = initialRedisClient();
+
+    const isTokenActive = await redisClient.get(`token:${req.user.id}`);
+
+    if (!isTokenActive) res.status(401).json({ success: false, data: [], message: 'Unauthorized' });
   });
 
   next();

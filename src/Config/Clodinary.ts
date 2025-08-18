@@ -8,4 +8,27 @@ Cloud.v2.config({
   secure: true,
 });
 
-export const Cloudinary = Cloud.v2;
+export class CloudinaryService {
+  private static cloudinary = Cloud.v2;
+
+  static async uploadImage(image: Buffer): Promise<{
+    secure_url: string;
+    public_id: string;
+  }> {
+    const { secure_url, public_id } = await this.cloudinary.uploader.upload(
+      `data:image/jpeg;base64,${image.toString('base64')}`,
+      {
+        folder: 'ukk',
+      }
+    );
+
+    return {
+      secure_url,
+      public_id,
+    };
+  }
+
+  static async deleteImage(public_id: string): Promise<void> {
+    await this.cloudinary.uploader.destroy(public_id);
+  }
+}

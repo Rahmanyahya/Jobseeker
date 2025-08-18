@@ -28,4 +28,4 @@ export type MetaData = {
   total: number;
   totalPage: number;
   currentPage: number;
-}
+};

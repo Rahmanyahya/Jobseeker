@@ -28,5 +28,4 @@ export const JwtMiddleware = async (
 
     next();
   });
-
 };

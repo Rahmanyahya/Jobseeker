@@ -36,18 +36,40 @@ PrivateRouter.delete(`${Prefix}/profile`, AccountController.deleteProfile);
  */
 
 // Add Portfolio
-PrivateRouter.post(`${Prefix}/portfolio`, AuthorizationMiddleware('SOCIETY'), upload.single('file'), PortfolioController.addPortfolio);
+PrivateRouter.post(
+  `${Prefix}/portfolio`,
+  AuthorizationMiddleware('SOCIETY'),
+  upload.single('file'),
+  PortfolioController.addPortfolio
+);
 
 // Update Portfolio
-PrivateRouter.put(`${Prefix}/portfolio`, AuthorizationMiddleware('SOCIETY'), upload.single('file'), PortfolioController.updatePortfolio);
+PrivateRouter.put(
+  `${Prefix}/portfolio`,
+  AuthorizationMiddleware('SOCIETY'),
+  upload.single('file'),
+  PortfolioController.updatePortfolio
+);
 
 // Get Portfolio
-PrivateRouter.get(`${Prefix}/portfolio-detail`, AuthorizationMiddleware('SOCIETY'), PortfolioController.getPortfolioById);
+PrivateRouter.get(
+  `${Prefix}/portfolio-detail`,
+  AuthorizationMiddleware('SOCIETY'),
+  PortfolioController.getPortfolioById
+);
 
 // Delete Portfolio
-PrivateRouter.delete(`${Prefix}/portfolio`, AuthorizationMiddleware('SOCIETY'), PortfolioController.deletPortfolio);
+PrivateRouter.delete(
+  `${Prefix}/portfolio`,
+  AuthorizationMiddleware('SOCIETY'),
+  PortfolioController.deletPortfolio
+);
 
 // Get All Portfolio
-PrivateRouter.get(`${Prefix}/portfolio`, AuthorizationMiddleware('SOCIETY'),  PortfolioController.getAllPortfolio);
+PrivateRouter.get(
+  `${Prefix}/portfolio`,
+  AuthorizationMiddleware('SOCIETY'),
+  PortfolioController.getAllPortfolio
+);
 
 export default PrivateRouter;

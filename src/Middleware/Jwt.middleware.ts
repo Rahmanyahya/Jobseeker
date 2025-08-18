@@ -21,8 +21,12 @@ export const JwtMiddleware = async (
 
     const isTokenActive = await redisClient.get(`token:${req.user.id}`);
 
-    if (!isTokenActive) res.status(401).json({ success: false, data: [], message: 'Unauthorized' });
+    if (!isTokenActive) {
+      res.status(401).json({ success: false, data: [], message: 'Unauthorized' });
+      return;
+    }
+
+    next();
   });
 
-  next();
 };

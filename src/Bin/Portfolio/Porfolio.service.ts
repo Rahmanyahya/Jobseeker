@@ -85,9 +85,7 @@ export class PortfolioService {
     return portfolio;
   }
 
-  static async getAllPortfolio(
-    payload: GetAllPortfolio
-  ): Promise<{
+  static async getAllPortfolio(payload: GetAllPortfolio): Promise<{
     data: Omit<Portfolio, 'userId' | 'createdAt' | 'updatedAt'>[];
     MetaData: MetaData;
   }> {

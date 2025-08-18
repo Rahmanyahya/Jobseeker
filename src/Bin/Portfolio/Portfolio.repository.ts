@@ -32,9 +32,7 @@ export class PortfolioRepository {
     });
   }
 
-  static async findAll(
-    paylod: GetAllPortfolio
-  ): Promise<{
+  static async findAll(paylod: GetAllPortfolio): Promise<{
     data: Omit<Portfolio, 'userId' | 'createdAt' | 'updatedAt'>[];
     MetaData: MetaData;
   }> {

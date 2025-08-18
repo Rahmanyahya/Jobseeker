@@ -1,11 +1,11 @@
 import { ROLE } from '@prisma/client';
 import { ClientRequest } from '../Global/Global';
-import { NextFunction, Response } from 'express';
+import { NextFunction, Response, RequestHandler } from 'express';
 
-export const AuthorizationMiddleware = (...allowedRoles: ROLE[]): unknown => {
-  return (req: ClientRequest, res: Response, next: NextFunction): void => {
+export const AuthorizationMiddleware = (...allowedRoles: ROLE[]): RequestHandler => {
+  return (req: ClientRequest, res: Response, next: NextFunction) => {
     if (!req.user || !allowedRoles.includes(req.user.role!)) {
-      res.status(403).json({ success: false, data: [], message: 'Not Allowed' });
+      return res.status(403).json({ success: false, data: [], message: 'Not Allowed' });
     } else {
       next();
     }

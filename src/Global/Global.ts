@@ -21,3 +21,11 @@ export type JwtPayload = {
   id: number;
   role: ROLE;
 };
+
+export type MetaData = {
+  page: number;
+  quantity: number;
+  total: number;
+  totalPage: number;
+  currentPage: number;
+}

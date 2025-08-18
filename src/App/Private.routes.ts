@@ -1,4 +1,5 @@
 import { AccountController } from 'Bin/Account/Account.controller';
+import { CompanyController } from 'Bin/Company/Company.controller';
 import { PortfolioController } from 'Bin/Portfolio/Portfolio.controller';
 import { GlobalEnv } from 'Config/GlobalEnv';
 import { upload } from 'Config/Multer';
@@ -70,6 +71,33 @@ PrivateRouter.get(
   `${Prefix}/portfolio`,
   AuthorizationMiddleware('SOCIETY'),
   PortfolioController.getAllPortfolio
+);
+
+/**
+ *
+ * Company Routes
+ *
+ */
+
+// Add Company
+PrivateRouter.post(
+  `${Prefix}/company`,
+  AuthorizationMiddleware('HRD'),
+  CompanyController.addCompany
+);
+
+// Update Company
+PrivateRouter.put(
+  `${Prefix}/company`,
+  AuthorizationMiddleware('HRD'),
+  CompanyController.updateCompany
+);
+
+// Get Company
+PrivateRouter.get(
+  `${Prefix}/company`,
+  AuthorizationMiddleware('HRD'),
+  CompanyController.getCompany
 );
 
 export default PrivateRouter;

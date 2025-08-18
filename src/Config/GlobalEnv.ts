@@ -12,7 +12,7 @@ export const GlobalEnv = {
     CLOUD_NAME: process.env.CLOUD_NAME,
     FOLDER_NAME: process.env.FOLDER_NAME,
     API_KEY: process.env.CLOUD_API_KEY,
-    SECRET_KEY: process.env.CLOUD_API_SECRET,
+    SECRET_KEY: process.env.CLOUD_SECRET_KEY,
   },
   AES_KEY: process.env.AES_KEY,
   MODE: process.env.MODE,

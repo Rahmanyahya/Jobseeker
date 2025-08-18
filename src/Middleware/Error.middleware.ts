@@ -27,7 +27,6 @@ export const ErrorMiddleware = (
       errors,
     });
   } else {
-    console.log(err);
     res.status(HttpErrorCode.SERVER_ERROR).json({
       success: false,
       data: [],

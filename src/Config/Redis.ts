@@ -5,7 +5,6 @@ import Logger from './Logger';
 let client: Redis | null = null;
 
 export function initialRedisClient(): Redis {
-  console.log(GlobalEnv.REDIS);
   if (!client) {
     client = new Redis({
       host: 'localhost',

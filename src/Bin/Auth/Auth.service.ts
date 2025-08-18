@@ -13,7 +13,7 @@ import { ROLE } from '@prisma/client';
 export class AuthService {
   static async Login(payload: Login): Promise<{ role: ROLE; token: string }> {
     const ctx: string = 'Login';
-    const scp: string = 'User';
+    const scp: string = 'Auth';
 
     const userRequest = Validator.Validate(AuthSchema.LOGIN, payload);
 

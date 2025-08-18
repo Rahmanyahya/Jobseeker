@@ -52,7 +52,6 @@ describe('POST /login', () => {
     expect(res.body).toHaveProperty('success');
     expect(res.body.success).toBe(false);
     expect(res.body.message).toBe(HttpErrorMessage.NOT_FOUND);
-    console.log(res.body);
   });
 
   it('should return 400 when input invalid', async () => {

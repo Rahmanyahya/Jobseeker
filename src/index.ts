@@ -4,6 +4,7 @@ import { GlobalEnv } from './Config/GlobalEnv';
 import PublicRouter from 'App/Public.routes';
 import { ErrorMiddleware } from 'Middleware/Error.middleware';
 import { initialRedisClient } from 'Config/Redis';
+import PrivateRouter from 'App/Private.routes';
 
 const app = express();
 
@@ -12,6 +13,8 @@ app.use([express.json(), express.urlencoded({ extended: true }), helmet()]);
 initialRedisClient();
 
 app.use(PublicRouter);
+
+app.use(PrivateRouter);
 
 app.use(ErrorMiddleware);
 

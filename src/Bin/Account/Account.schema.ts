@@ -20,7 +20,7 @@ export class AccountSchema {
   static readonly REGISTER: ZodType = z.object({
     email: z.email(),
     password: z.string().min(8).max(255),
-    role: z.enum(['SOCIETY', 'USER']),
+    role: z.enum(['SOCIETY', 'HRD']),
     name: z.string().min(5).max(255),
   });
 

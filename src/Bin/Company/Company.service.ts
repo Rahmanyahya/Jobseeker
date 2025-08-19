@@ -14,11 +14,11 @@ export class CompanyService {
 
     const userRequest = Validator.Validate(CompanySchema.CREATE_COMPANY, payload);
 
-    const userData = await CompanyRepository.findOne({ id: userRequest.userId });
+    const userData = await CompanyRepository.findOne({ userId: userRequest.userId });
 
     if (userData) {
       Logger.info(ctx, `User already have a company`, scp);
-      throw new ErrorHandler(HttpErrorCode.BAD_REQUEST, HttpErrorMessage.BAD_REQUEST);
+      throw new ErrorHandler(HttpErrorCode.BAD_REQUEST, 'You already have a company');
     }
 
     await CompanyRepository.create({

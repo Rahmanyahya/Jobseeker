@@ -2,7 +2,6 @@ import z, { ZodType } from 'zod';
 
 export class AccountSchema {
   static readonly ADD_PROFILE: ZodType = z.object({
-    userId: z.number(),
     address: z.string(),
     phone: z.string().min(12).max(12),
     dob: z.string().transform(date => {
@@ -25,7 +24,6 @@ export class AccountSchema {
   });
 
   static readonly EDIT_PROFILE: ZodType = z.object({
-    userId: z.number(),
     email: z.email().optional(),
     name: z.string().min(5).max(255).optional(),
     password: z.string().min(8).max(255).optional(),

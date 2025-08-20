@@ -1,5 +1,6 @@
 import { AccountController } from 'Bin/Account/Account.controller';
 import { CompanyController } from 'Bin/Company/Company.controller';
+import { JobController } from 'Bin/Job/Job.controller';
 import { PortfolioController } from 'Bin/Portfolio/Portfolio.controller';
 import { GlobalEnv } from 'Config/GlobalEnv';
 import { upload } from 'Config/Multer';
@@ -99,5 +100,34 @@ PrivateRouter.get(
   AuthorizationMiddleware('HRD'),
   CompanyController.getCompany
 );
+
+/**
+ *
+ * Jobs Routes
+ *
+ */
+
+// Get All Jobs
+PrivateRouter.get(
+  `${Prefix}/jobs-recruitment`,
+  AuthorizationMiddleware('HRD'),
+  JobController.getJobs
+);
+
+// Get Job Detail
+PrivateRouter.get(
+  `${Prefix}/job-detail-recruitment`,
+  AuthorizationMiddleware('HRD'),
+  JobController.getJobById
+);
+
+// Create Job
+PrivateRouter.post(`${Prefix}/job`, AuthorizationMiddleware('HRD'), JobController.createJob);
+
+// Update Job
+PrivateRouter.put(`${Prefix}/job`, AuthorizationMiddleware('HRD'), JobController.updateJob);
+
+// Delete Job
+PrivateRouter.delete(`${Prefix}/job`, AuthorizationMiddleware('HRD'), JobController.deleteJob);
 
 export default PrivateRouter;

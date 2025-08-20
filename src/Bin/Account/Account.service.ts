@@ -39,10 +39,13 @@ export class AccountService {
     Logger.info(ctx, `Account registered`, scp);
   }
 
-  static async addProfile(payload: AddProfile): Promise<void> {
+  static async addProfile(payload: AddProfile, userId: number): Promise<void> {
     const ctx: string = 'Add Profile';
     const scp: string = 'Account';
+
     const userRequest = Validator.Validate(AccountSchema.ADD_PROFILE, payload);
+
+    userRequest.userId = userId;
 
     const { name } = await AccountRepository.findOne({ id: userRequest.userId });
 
@@ -58,11 +61,13 @@ export class AccountService {
     Logger.info(ctx, `Profile added`, scp);
   }
 
-  static async editProfile(payload: UpdateProfile): Promise<void> {
+  static async editProfile(payload: UpdateProfile, userId: number): Promise<void> {
     const ctx: string = 'Edit Profile';
     const scp: string = 'Account';
 
     const userRequest = Validator.Validate(AccountSchema.EDIT_PROFILE, payload);
+
+    userRequest.userId = userId;
 
     const userProfile = await AccountRepository.findOne({ id: userRequest.userId });
 

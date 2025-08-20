@@ -16,11 +16,9 @@ export class PortfolioController {
     try {
       const request: AddPortfolio = req.body as AddPortfolio;
 
-      request.userId = req.user!.id!;
-
       if (req.file?.buffer) request.file = req.file.buffer;
 
-      await PortfolioService.addPortfolio(request);
+      await PortfolioService.addPortfolio(request, req.user!.id!);
 
       Wrapper.success(res, [], HttpSuccessMessage.CREATED, HttpSuccessCode.CREATED);
     } catch (e) {
@@ -74,11 +72,10 @@ export class PortfolioController {
     try {
       const request: GetAllPortfolio = req.query as unknown as GetAllPortfolio;
 
-      request.userId = req.user!.id!;
       request.page = Number(request.page);
       request.quantity = Number(request.quantity);
 
-      const { data, MetaData } = await PortfolioService.getAllPortfolio(request);
+      const { data, MetaData } = await PortfolioService.getAllPortfolio(request, req.user!.id!);
 
       Wrapper.pagination(res, data, MetaData, HttpSuccessMessage.OK, HttpSuccessCode.OK);
     } catch (e) {

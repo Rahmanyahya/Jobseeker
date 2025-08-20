@@ -10,9 +10,7 @@ export class CompanyController {
     try {
       const request: CreateCompany = req.body as CreateCompany;
 
-      request.userId = req.user!.id!;
-
-      await CompanyService.addCompany(request);
+      await CompanyService.addCompany(request, req.user!.id!);
 
       Wrapper.success(res, [], HttpSuccessMessage.CREATED, HttpSuccessCode.CREATED);
     } catch (e) {
@@ -24,9 +22,7 @@ export class CompanyController {
     try {
       const request: UpdateCompany = req.body as UpdateCompany;
 
-      request.userId = req.user!.id!;
-
-      await CompanyService.editCompany(request);
+      await CompanyService.editCompany(request, req.user!.id!);
 
       Wrapper.success(res, [], HttpSuccessMessage.OK, HttpSuccessCode.OK);
     } catch (e) {

@@ -2,14 +2,11 @@ import z, { ZodType } from 'zod';
 
 export class PortfolioSchema {
   static readonly ADD_PORTFOLIO = z.object({
-    userId: z.number(),
     skill: z.string(),
     description: z.string(),
   });
 
-  static readonly UPDATE_PORTFOLIO = this.ADD_PORTFOLIO.omit({
-    userId: true,
-  }).extend({
+  static readonly UPDATE_PORTFOLIO = this.ADD_PORTFOLIO.extend({
     id: z.number(),
   });
 

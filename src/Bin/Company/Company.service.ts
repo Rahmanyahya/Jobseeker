@@ -8,17 +8,26 @@ import { CompanyRepository } from './Company.repository';
 import { Company } from '@prisma/client';
 
 export class CompanyService {
-  static async addCompany(payload: CreateCompany): Promise<void> {
+  static async addCompany(payload: CreateCompany, userId: number): Promise<void> {
     const ctx: string = 'Add Company';
     const scp: string = 'Company';
 
     const userRequest = Validator.Validate(CompanySchema.CREATE_COMPANY, payload);
+
+    userRequest.userId = userId;
 
     const userData = await CompanyRepository.findOne({ userId: userRequest.userId });
 
     if (userData) {
       Logger.info(ctx, `User already have a company`, scp);
       throw new ErrorHandler(HttpErrorCode.BAD_REQUEST, 'You already have a company');
+    }
+
+    const companyData = await CompanyRepository.searchCompany({ name: userRequest.name });
+
+    if (companyData) {
+      Logger.info(ctx, `Company already exist`, scp);
+      throw new ErrorHandler(HttpErrorCode.BAD_REQUEST, 'Company already exist');
     }
 
     await CompanyRepository.create({
@@ -32,11 +41,13 @@ export class CompanyService {
     Logger.info(ctx, `Company added`, scp);
   }
 
-  static async editCompany(payload: UpdateCompany): Promise<void> {
+  static async editCompany(payload: UpdateCompany, userId: number): Promise<void> {
     const ctx: string = 'Edit Company';
     const scp: string = 'Company';
 
     const userRequest = Validator.Validate(CompanySchema.UPDATE_COMPANY, payload);
+
+    userRequest.userId = userId;
 
     await CompanyRepository.update(
       {

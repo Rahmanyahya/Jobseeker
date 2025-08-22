@@ -14,11 +14,13 @@ import { HttpErrorCode, HttpErrorMessage } from 'Constant/HttpError';
 import { Portfolio } from '@prisma/client';
 
 export class PortfolioService {
-  static async addPortfolio(payload: AddPortfolio): Promise<void> {
+  static async addPortfolio(payload: AddPortfolio, userId: number): Promise<void> {
     const scp: string = 'Portfolio';
     const ctx: string = 'Add Portfolio';
 
     const userRequest = Validator.Validate(PortfolioSchema.ADD_PORTFOLIO, payload);
+
+    userRequest.userId = userId;
 
     const { public_id, secure_url } = await CloudinaryService.uploadImage(payload.file as Buffer);
 
@@ -85,7 +87,10 @@ export class PortfolioService {
     return portfolio;
   }
 
-  static async getAllPortfolio(payload: GetAllPortfolio): Promise<{
+  static async getAllPortfolio(
+    payload: GetAllPortfolio,
+    userId: number
+  ): Promise<{
     data: Omit<Portfolio, 'userId' | 'createdAt' | 'updatedAt'>[];
     MetaData: MetaData;
   }> {
@@ -93,6 +98,8 @@ export class PortfolioService {
     const ctx: string = 'Get All Portfolio';
 
     const userRequest = Validator.Validate(PortfolioSchema.GET_ALL_PORTFOLIO, payload);
+
+    userRequest.userId = userId;
 
     const { MetaData, data } = await PortfolioRepository.findAll(userRequest);
 

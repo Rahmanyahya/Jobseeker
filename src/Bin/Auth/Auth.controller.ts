@@ -17,4 +17,14 @@ export class AuthController {
       next(e);
     }
   }
+
+  static async Logout(req: ClientRequest, res: Response, next: NextFunction): Promise<void> {
+    try {
+      await AuthService.Logout(req.user!.id!);
+
+      Wrapper.success(res, [], HttpSuccessMessage.OK, HttpSuccessCode.OK);
+    } catch (e) {
+      next(e);
+    }
+  }
 }

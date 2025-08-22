@@ -28,9 +28,7 @@ export class AccountController {
     try {
       const request: AddProfile = req.body as AddProfile;
 
-      request.userId = req.user!.id!;
-
-      await AccountService.addProfile(request);
+      await AccountService.addProfile(request, req.user!.id!);
 
       Wrapper.success(res, [], HttpSuccessMessage.CREATED, HttpSuccessCode.CREATED);
     } catch (e) {
@@ -44,9 +42,7 @@ export class AccountController {
 
       if (req.file?.buffer) request.avatar = req.file.buffer;
 
-      request.userId = req.user!.id!;
-
-      await AccountService.editProfile(request);
+      await AccountService.editProfile(request, req.user!.id!);
 
       Wrapper.success(res, [], HttpSuccessMessage.OK, HttpSuccessCode.OK);
     } catch (e) {

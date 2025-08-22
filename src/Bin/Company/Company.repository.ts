@@ -16,4 +16,12 @@ export class CompanyRepository {
   static async findOne(where: Prisma.CompanyWhereUniqueInput): Promise<Company | null> {
     return await prisma.company.findUnique({ where });
   }
+
+  static async searchCompany(where: Prisma.CompanyWhereInput): Promise<Company | null> {
+    return await prisma.company.findFirst({
+      where: {
+        name: { contains: where.name as string },
+      },
+    });
+  }
 }

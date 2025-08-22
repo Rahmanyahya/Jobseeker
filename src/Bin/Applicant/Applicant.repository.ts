@@ -41,9 +41,7 @@ export class ApplicantRepository {
     });
   }
 
-  static async findManyHistoryUser(
-    where: GetHistoryApply
-  ): Promise<{
+  static async findManyHistoryUser(where: GetHistoryApply): Promise<{
     data: {
       id: number;
       applyDate: Date;
@@ -96,9 +94,7 @@ export class ApplicantRepository {
     };
   }
 
-  static async findManyApplicantList(
-    where: JobApplicantList
-  ): Promise<{
+  static async findManyApplicantList(where: JobApplicantList): Promise<{
     data: {
       id: number;
       applyDate: Date;

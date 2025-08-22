@@ -117,9 +117,7 @@ export class JobService {
     Logger.info(ctx, `Job deleted`, scp);
   }
 
-  static async getJobById(
-    payload: GetJobById
-  ): Promise<
+  static async getJobById(payload: GetJobById): Promise<
     Omit<AvaiblePosition, 'companyId' | 'createdAt' | 'updatedAt' | 'accepted'> & {
       companyName: string;
     }

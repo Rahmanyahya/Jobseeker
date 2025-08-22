@@ -60,6 +60,14 @@ export class JobService {
       throw new ErrorHandler(HttpErrorCode.NOT_FOUND, HttpErrorMessage.NOT_FOUND);
     }
 
+    if (job.PositionApplied.length > 0) {
+      Logger.info(ctx, `Job cannot be updated`, scp);
+      throw new ErrorHandler(
+        HttpErrorCode.BAD_REQUEST,
+        'Job cannot be updated because it has applicants'
+      );
+    }
+
     await JobRepository.update(
       {
         position_name: userRequest.position_name,
@@ -96,6 +104,14 @@ export class JobService {
       throw new ErrorHandler(HttpErrorCode.NOT_FOUND, HttpErrorMessage.NOT_FOUND);
     }
 
+    if (job.PositionApplied.length > 0) {
+      Logger.info(ctx, `Job cannot be deleted`, scp);
+      throw new ErrorHandler(
+        HttpErrorCode.BAD_REQUEST,
+        'Job cannot be deleted because it has applicants'
+      );
+    }
+
     await JobRepository.delete({ id: userRequest.id });
 
     Logger.info(ctx, `Job deleted`, scp);
@@ -104,7 +120,9 @@ export class JobService {
   static async getJobById(
     payload: GetJobById
   ): Promise<
-    Omit<AvaiblePosition, 'companyId' | 'createdAt' | 'updatedAt'> & { companyName: string }
+    Omit<AvaiblePosition, 'companyId' | 'createdAt' | 'updatedAt' | 'accepted'> & {
+      companyName: string;
+    }
   > {
     const scp: string = 'Job';
     const ctx: string = 'Get Job';

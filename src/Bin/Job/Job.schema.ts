@@ -9,7 +9,7 @@ export class JobSchema {
     submition_end_date: z.string().transform(date => new Date(date)),
   });
 
-  static readonly UPDATE_JOB = this.ADD_JOB.extend({
+  static readonly UPDATE_JOB = this.ADD_JOB.partial().extend({
     id: z.number(),
   });
 

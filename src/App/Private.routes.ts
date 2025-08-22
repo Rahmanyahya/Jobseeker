@@ -1,4 +1,6 @@
 import { AccountController } from 'Bin/Account/Account.controller';
+import { ApplicantController } from 'Bin/Applicant/Appliciant.controller';
+import { AuthController } from 'Bin/Auth/Auth.controller';
 import { CompanyController } from 'Bin/Company/Company.controller';
 import { JobController } from 'Bin/Job/Job.controller';
 import { PortfolioController } from 'Bin/Portfolio/Portfolio.controller';
@@ -12,6 +14,19 @@ const Prefix = GlobalEnv.PREFIX;
 const PrivateRouter = Router();
 
 PrivateRouter.use(JwtMiddleware);
+
+/**
+ *
+ * Auth Router
+ *
+ */
+
+// Logout
+PrivateRouter.post(
+  `${Prefix}/logout`,
+  AuthorizationMiddleware('SOCIETY', 'HRD'),
+  AuthController.Logout
+);
 
 /**
  *
@@ -129,5 +144,49 @@ PrivateRouter.put(`${Prefix}/job`, AuthorizationMiddleware('HRD'), JobController
 
 // Delete Job
 PrivateRouter.delete(`${Prefix}/job`, AuthorizationMiddleware('HRD'), JobController.deleteJob);
+
+/**
+ *
+ * Application Routes
+ *
+ */
+
+// Apply Job
+PrivateRouter.post(
+  `${Prefix}/apply`,
+  AuthorizationMiddleware('SOCIETY'),
+  ApplicantController.applyJob
+);
+
+// Get History Apply
+PrivateRouter.get(
+  `${Prefix}/apply-history`,
+  AuthorizationMiddleware('SOCIETY'),
+  ApplicantController.getHistoryAppliciant
+);
+
+// Cancel History Apply
+PrivateRouter.delete(
+  `${Prefix}/apply`,
+  AuthorizationMiddleware('SOCIETY'),
+  ApplicantController.cancelApply
+);
+
+// Edit History Apply
+PrivateRouter.put(`${Prefix}/apply`, AuthorizationMiddleware('HRD'), ApplicantController.editApply);
+
+// Get Job Detail
+PrivateRouter.get(
+  `${Prefix}/apply-detail`,
+  AuthorizationMiddleware('HRD'),
+  ApplicantController.jobAppliciantDetail
+);
+
+// Get Appliciant List
+PrivateRouter.get(
+  `${Prefix}/apply-list`,
+  AuthorizationMiddleware('HRD'),
+  ApplicantController.jobApplicinatList
+);
 
 export default PrivateRouter;

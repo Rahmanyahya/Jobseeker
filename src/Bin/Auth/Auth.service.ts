@@ -33,4 +33,15 @@ export class AuthService {
 
     return { role: user.role, token };
   }
+
+  static async Logout(userId: number): Promise<void> {
+    const ctx: string = 'Logout';
+    const scp: string = 'Auth';
+
+    const redisClient = initialRedisClient();
+
+    await redisClient.del(`token:${userId}`);
+
+    Logger.info(ctx, `User logged out`, scp);
+  }
 }

@@ -90,6 +90,7 @@ model AvaiblePosition {
   description          String   @db.Text
   submition_start_date DateTime
   submition_end_date   DateTime
+  accepted             Int      @default(0)
   createdAt            DateTime @default(now())
   updatedAt            DateTime @updatedAt
 
@@ -104,8 +105,8 @@ model PositionApplied {
   id                  Int               @id @default(autoincrement())
   avaible_position_id Int
   userId              Int
-  apply_date          DateTime
-  status              StatusApllication
+  apply_date          DateTime          @default(now())
+  status              StatusApllication @default(PENDING)
   updatedAt           DateTime          @updatedAt
 
   AvaiblePosition AvaiblePosition @relation(fields: [avaible_position_id], references: [id], onUpdate: Cascade, onDelete: Cascade)

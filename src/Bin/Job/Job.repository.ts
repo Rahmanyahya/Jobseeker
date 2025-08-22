@@ -1,6 +1,5 @@
-import { AvaiblePosition, Prisma } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 import prisma from 'Config/Prisma';
-import { MetaData } from 'Global/Global';
 import { SearchJob } from 'Types/Job.types';
 
 export class JobRepository {
@@ -21,8 +20,13 @@ export class JobRepository {
 
   static async findOne(
     where: Prisma.AvaiblePositionWhereUniqueInput
-  ): Promise<Prisma.AvaiblePositionGetPayload<{ include: { company: true } }> | null> {
-    return await prisma.avaiblePosition.findUnique({ where, include: { company: true } });
+  ): Promise<Prisma.AvaiblePositionGetPayload<{
+    include: { company: true; PositionApplied: true };
+  }> | null> {
+    return await prisma.avaiblePosition.findUnique({
+      where,
+      include: { company: true, PositionApplied: true },
+    });
   }
 
   static async findAll(
@@ -45,6 +49,7 @@ export class JobRepository {
       ...(where.endDate && { submition_end_date: { lte: new Date(where.endDate) } }),
       ...(where.skill && { description: { contains: where.skill.join(', ') } }),
       ...(userId && { company: { userId } }),
+      ...(!userId && { submition_end_date: { gte: new Date() } }),
     };
 
     const data = await prisma.avaiblePosition.findMany({
